@@ -18,3 +18,10 @@ nest-asyncio
 pydantic-ai
 groq
 pydantic-ai-slim[tavily]
+langsmith
+
+# Security & DevSecOps
+bandit
+ruff
+semgrep
+pip-audit

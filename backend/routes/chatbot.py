@@ -129,8 +129,13 @@ async def chat_bot(data: dict = Body(...)):
     deps = StoreDeps()
 
     try:
-        result = await agent.run(user_message, deps=deps)
-        text_reply = result.output  # plain string from the LLM
+        from langsmith import traceable
+        @traceable(run_type="chain", name="ClothStore Agent")
+        async def run_traced_agent(msg, dependencies):
+            return await agent.run(msg, deps=dependencies)
+
+        result = await run_traced_agent(user_message, deps)
+        text_reply = result.output
 
         # If the tool was called and found products → send them to the frontend
         if deps.found_products:

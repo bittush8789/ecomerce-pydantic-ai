@@ -1,0 +1,17 @@
+name: Build & Release
+on:
+  push:
+    branches: [ main ]
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build & Push ECR
+        run: |
+          echo "Building and pushing to ECR..."
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ github.run_number }}
+          generate_release_notes: true

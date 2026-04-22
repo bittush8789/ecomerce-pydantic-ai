@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') { steps { checkout scm } }
+        stage('Security Scan') {
+            parallel {
+                stage('SAST') { steps { sh 'bandit -r .' } }
+                stage('Secrets') { steps { sh 'gitleaks detect --source . -v' } }
+                stage('Dependencies') { steps { sh 'pip-audit' } }
+            }
+        }
+        stage('Build Image') {
+            steps {
+                sh 'docker build -t ecommerce-ai:${BUILD_NUMBER} -f devops/docker/Dockerfile.production .'
+            }
+        }
+        stage('Deploy to Dev') {
+            steps {
+                sh 'helm upgrade --install ecommerce-ai devops/helm/ecommerce-ai --namespace dev'
+            }
+        }
+    }
+}
