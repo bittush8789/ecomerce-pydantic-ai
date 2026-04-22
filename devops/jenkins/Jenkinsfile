@@ -2,21 +2,16 @@ pipeline {
     agent any
     stages {
         stage('Checkout') { steps { checkout scm } }
-        stage('Security Scan') {
+        stage('Lint & Test') {
             parallel {
-                stage('SAST') { steps { sh 'bandit -r .' } }
-                stage('Secrets') { steps { sh 'gitleaks detect --source . -v' } }
-                stage('Dependencies') { steps { sh 'pip-audit' } }
+                stage('Bandit') { steps { sh 'bandit -r .' } }
+                stage('Safety') { steps { sh 'safety check' } }
+                stage('Gitleaks') { steps { sh 'gitleaks detect --source . -v' } }
             }
         }
-        stage('Build Image') {
+        stage('Build') {
             steps {
-                sh 'docker build -t ecommerce-ai:${BUILD_NUMBER} -f devops/docker/Dockerfile.production .'
-            }
-        }
-        stage('Deploy to Dev') {
-            steps {
-                sh 'helm upgrade --install ecommerce-ai devops/helm/ecommerce-ai --namespace dev'
+                sh 'docker build -t ecom-ai:latest -f devops/docker/Dockerfile.backend .'
             }
         }
     }

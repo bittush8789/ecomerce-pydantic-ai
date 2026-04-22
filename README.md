@@ -1,47 +1,22 @@
-# 👕 ClothStore AI: Enterprise Transformation
+# 👕 ClothStore AI: Enterprise GenAI Ecosystem
 
-[![DevOps](https://img.shields.io/badge/Ops-Enterprise-blue?style=for-the-badge)](https://github.com/bittush8789)
-[![DevSecOps](https://img.shields.io/badge/Security-DevSecOps-green?style=for-the-badge)](https://github.com/bittush8789)
-[![LLMOps](https://img.shields.io/badge/AI-LLMOps-orange?style=for-the-badge)](https://github.com/bittush8789)
+This repository has been transformed into a production-grade enterprise ecosystem using DevOps, DevSecOps, and LLMOps best practices.
 
-## 🏢 Enterprise Architecture
-- **Infrastructure**: AWS EKS, VPC, ECR managed via Terraform.
-- **CI/CD**: Dual-pipeline strategy (GitHub Actions for PRs, Jenkins for Staging).
-- **GitOps**: ArgoCD for automated K8s synchronization.
-- **Monitoring**: Prometheus, Grafana, and ELK Stack.
-- **LLMOps**: LangSmith for prompt tracing and observability.
-
-## 🌿 Branching Strategy
-- `main`: Production-ready.
-- `develop`: Integration branch.
-- `feature/*`: New feature development.
-
-## 📁 Folder Structure
+## 📁 Repository Structure
 ```text
 devops/
-├── docker/          # Hardened production Dockerfiles
-├── kubernetes/      # K8s manifests (Deployment, HPA)
-├── helm/            # Reusable Helm charts
+├── docker/          # Multi-stage Dockerfiles
+├── kubernetes/      # Kustomize/Base manifests
+├── helm/            # Environment-specific charts
 ├── terraform/       # AWS Infrastructure as Code
-├── jenkins/         # Enterprise Jenkins Pipeline
-└── monitoring/      # Prometheus & Grafana configs
+├── jenkins/         # Multi-env CI/CD pipelines
+├── gitops/          # ArgoCD App-of-Apps manifests
+├── monitoring/      # Prometheus & Grafana configs
+├── security/        # Scanning & Runtime security
+└── llmops/          # LangSmith & Cost tracking
 ```
 
-## 🚀 Deployment Guide
-### Local Deployment (Kind)
-```bash
-kind create cluster
-docker build -t ecom-ai -f devops/docker/Dockerfile.production .
-kind load docker-image ecom-ai
-kubectl apply -f devops/kubernetes/
-```
-
-### AWS EKS Deployment
-```bash
-cd devops/terraform
-terraform init && terraform apply
-aws eks update-kubeconfig --name ecom-eks
-helm install ecom-ai devops/helm/ecommerce-ai
-```
+## 🚀 Quick Start
+Refer to [LOCAL-SETUP.md](./docs/LOCAL-SETUP.md) to get started.
 
 **Developed by Bittu Sharma**

@@ -1,0 +1,10 @@
+pipeline {
+    agent any
+    stages {
+        stage('Deploy to Dev') {
+            steps {
+                sh 'helm upgrade --install ecom-ai-dev devops/helm/ecommerce-ai -f devops/helm/ecommerce-ai/values-dev.yaml --namespace dev --create-namespace'
+            }
+        }
+    }
+}

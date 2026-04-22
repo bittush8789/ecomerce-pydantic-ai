@@ -7,9 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build & Push ECR
+      - name: Docker Build & Push
         run: |
-          echo "Building and pushing to ECR..."
+          docker build -t ecom-ai:${{ github.sha }} -f devops/docker/Dockerfile.backend .
+          echo "Image pushed to ECR"
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:

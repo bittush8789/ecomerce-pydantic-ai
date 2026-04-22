@@ -1,0 +1,13 @@
+name: Deploy Dev
+on:
+  push:
+    branches: [ develop ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy to Dev
+        run: |
+          aws eks update-kubeconfig --name ecom-dev
+          helm upgrade --install ecom-ai devops/helm/ecommerce-ai -f devops/helm/ecommerce-ai/values-dev.yaml
